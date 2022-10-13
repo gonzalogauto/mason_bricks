@@ -10,4 +10,5 @@ vars:
   logger_name:
     type: string
     description: Logger name
+    default: logger
     prompt: What is your logger name?

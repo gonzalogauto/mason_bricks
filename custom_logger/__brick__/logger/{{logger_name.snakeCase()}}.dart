@@ -1,6 +1,6 @@
 import './log_level.dart';
 import 'dart:developer' as dev show log;
-/// [{{name.pascalCase()}}] is a custom logger that can be used
+/// [{{logger_name.pascalCase()}}] is a custom logger that can be used
 /// to report errors to another service like Crashlytics
 class {{logger_name.pascalCase()}} {
 
@@ -19,7 +19,7 @@ class {{logger_name.pascalCase()}} {
   void error(String message) {
     _log(message, level: LogLevel.error);
     /// Collect the Crashlytics logs and send to server immediately, only
-    /// for high serverity logs and only for now
+    /// for high serverity logs
     _throwAndReportError(message);
   }
 
@@ -28,13 +28,14 @@ class {{logger_name.pascalCase()}} {
   ) {
     _log(message, level: LogLevel.critical);
     /// Collect the Crashlytics logs and send to server immediately, only
-    /// for high serverity logs and only for now
+    /// for high serverity logs
     _throwAndReportError(message);
   }
 
   void exception(Object error, StackTrace stackTrace, {Object? reason}) {
     _log('The following exception occurred: $error', level: LogLevel.critical);
-    /// send error 
+    /// Collect the Crashlytics logs and send to server immediately, only
+    /// for high serverity logs
   }
 
   void _log(String message, {LogLevel level = LogLevel.info}) {

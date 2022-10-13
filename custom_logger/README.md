@@ -1,5 +1,19 @@
 # custom_logger
 
+A brick to create your custom logger with different levels.
+
+## How to use 🚀
+
+```
+mason make custom_logger --logger_name custom logger 
+```
+
+## Variables ✨
+
+| Variable         | Description                      | Default | Type      |
+| ---------------- | -------------------------------- | ------- | --------- |
+| `logger_name`    | The name of the logger           | logger  | `string`  |
+
 [![Powered by Mason](https://img.shields.io/endpoint?url=https%3A%2F%2Ftinyurl.com%2Fmason-badge)](https://github.com/felangel/mason)
 
 A new brick created with the Mason CLI.

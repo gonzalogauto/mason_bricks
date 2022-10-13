@@ -1,0 +1,13 @@
+name: custom_logger
+description: This brick provides a way to create a custom logger.
+repository: https://github.com/gonzalogauto/mason_bricks/tree/main/custom_logger
+version: 0.0.1
+
+environment:
+  mason: ">=0.1.0-dev.26 <0.1.0"
+
+vars:
+  logger_name:
+    type: string
+    description: Logger name
+    prompt: What is your logger name?

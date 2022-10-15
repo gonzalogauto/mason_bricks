@@ -1,0 +1,22 @@
+name: nice_exception
+description: A brick to create nice exceptions using Freezed.
+repository: https://github.com/gonzalogauto/mason_bricks/tree/main/nice_exception
+version: 0.0.1
+
+environment:
+  mason: ">=0.1.0-dev.26 <0.1.0"
+
+vars:
+  exception_name:
+    type: string
+    description: Your exception name
+    default: custom
+    prompt: What is your exception name?
+  error_types:
+    type: array
+    description: Your error types
+    default: [network,unauthorized]
+    prompt: What are your error types?
+    values:
+      - network
+      - unauthorized

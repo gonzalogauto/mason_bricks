@@ -5,7 +5,9 @@ import './log_level.dart';
 /// [{{logger_name.pascalCase()}}Logger] is a custom logger that can be used
 /// to report errors to another service like Crashlytics
 class {{logger_name.pascalCase()}}Logger {
-  {{#use_crashlytics}}{{logger_name.pascalCase()}}Logger(
+  {{#use_crashlytics}}/// [{{logger_name.pascalCase()}}Logger] constructor 
+  /// (here we initialize Firebase Crashlytics)
+  {{logger_name.pascalCase()}}Logger(
     FirebaseCrashlytics? crashlytics,
   ) : _crashlytics = crashlytics ?? FirebaseCrashlytics.instance;
 

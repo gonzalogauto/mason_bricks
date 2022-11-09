@@ -1,3 +1,13 @@
+# 0.0.7
+
+- feat: now we can add Firebase Crashlytics inside the logger.
+- update: add doc strings and organize imports
+# 0.0.6
+
+- update: update README.md
+# 0.0.5
+
+- fix: Now you only need to put the logger name like "custom" and it will create a CustomLogger class.
 # 0.0.4
 
 - update: changelog version.

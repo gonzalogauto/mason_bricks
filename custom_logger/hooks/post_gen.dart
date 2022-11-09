@@ -7,10 +7,10 @@ void run(HookContext context) async {
   final useCrashlytics = context.vars['use_crashlytics'];
   if (!useCrashlytics) return;
   final isUsingFvm = logger.confirm('Are you using fvm?', defaultValue: true);
-  await addCrashlyticsDependencie(logger, isUsingFvm: isUsingFvm);
+  await addCrashlyticsDependency(logger, isUsingFvm: isUsingFvm);
 }
 
-Future<void> addCrashlyticsDependencie(
+Future<void> addCrashlyticsDependency(
   Logger logger, {
   required bool isUsingFvm,
 }) async {

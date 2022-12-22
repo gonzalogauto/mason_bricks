@@ -1,3 +1,6 @@
+# 0.0.9
+
+- chore: implement a logger contract and extract log levels into a new folder.
 # 0.0.8
 
 - update: add missing doc in the logger constructor while using Firebase Crashlytics.

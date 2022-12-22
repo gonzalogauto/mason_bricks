@@ -5,19 +5,19 @@ A brick to create your custom logger with different levels.
 ## How to use 🚀
 
 ```
-mason make custom_logger --logger_name custom logger 
+mason make custom_logger --logger_name custom
 ```
 
 ## Variables ✨
 
 | Variable         | Description                      | Default | Type      |
 | ---------------- | -------------------------------- | ------- | --------- |
-| `logger_name`    | The name of the logger           | logger  | `string`  |
+| `logger_name`    | The name of the logger           | custom  | `string`  |
 
 ## Outputs 📦
 
 ```
---logger_name custom logger 
+--logger_name custom 
 ── logger
   ├── custom_logger.dart
   └── log_level.dart

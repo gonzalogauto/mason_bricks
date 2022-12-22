@@ -1,10 +1,11 @@
 import 'dart:developer' as dev show log;
 {{#use_crashlytics}}import 'package:firebase_crashlytics/firebase_crashlytics.dart';{{/use_crashlytics}}
-import './log_level.dart';
+import 'log_levels/log_level.dart';
+import 'contract/{{logger_name.snakeCase()}}_contract.dart';
 
 /// [{{logger_name.pascalCase()}}Logger] is a custom logger that can be used
 /// to report errors to another service like Crashlytics
-class {{logger_name.pascalCase()}}Logger {
+class {{logger_name.pascalCase()}}Logger implements {{logger_name.pascalCase()}}LoggerContract{
   {{#use_crashlytics}}/// [{{logger_name.pascalCase()}}Logger] constructor 
   /// (here we initialize Firebase Crashlytics)
   {{logger_name.pascalCase()}}Logger(
@@ -12,22 +13,23 @@ class {{logger_name.pascalCase()}}Logger {
   ) : _crashlytics = crashlytics ?? FirebaseCrashlytics.instance;
 
   final FirebaseCrashlytics _crashlytics;{{/use_crashlytics}}
-  /// [debug] level
+  
+  @override
   void debug(String message) {
     _log(message, level: LogLevel.debug);
   }
 
-  /// [info] level (usefull when you need more context about what is happening)
+  @override
   void info(String message) {
     _log(message, level: LogLevel.info);
   }
 
-  /// [warning] level
+  @override
   void warning(String message) {
     _log(message, level: LogLevel.warning);
   }
 
-  /// [error] level (Simulate a "crash")
+  @override
   void error(String message) {
     _log(message, level: LogLevel.error);
     /// Collect the Crashlytics logs and send to server immediately, only
@@ -35,7 +37,7 @@ class {{logger_name.pascalCase()}}Logger {
     _throwAndReportError(message);
   }
 
-  /// [critical] level
+  @override
   void critical(
     String message,
   ) {
@@ -45,8 +47,6 @@ class {{logger_name.pascalCase()}}Logger {
     _throwAndReportError(message);
   }
 
-  /// [exception] level (This sends the complete error `Object` with
-  /// the corresponding `StackTrace`)
   void exception(Object error, StackTrace stackTrace, {Object? reason}) {
     _log('The following exception occurred: $error', level: LogLevel.critical);
     /// Collect the Crashlytics logs and send to server immediately, only

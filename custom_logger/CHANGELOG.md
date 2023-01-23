@@ -1,3 +1,6 @@
+# 0.1.0
+
+- update: avoid send logs/errors while in debug mode + TODO's and comments that indicates next steps while using Crashlytics integration or not.
 # 0.0.9
 
 - chore: implement a logger contract and extract log levels into a new folder.

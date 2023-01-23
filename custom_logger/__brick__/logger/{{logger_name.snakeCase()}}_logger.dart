@@ -1,4 +1,6 @@
 import 'dart:developer' as dev show log;
+
+import 'package:flutter/foundation.dart';
 {{#use_crashlytics}}import 'package:firebase_crashlytics/firebase_crashlytics.dart';{{/use_crashlytics}}
 import 'log_levels/log_level.dart';
 import 'contract/{{logger_name.snakeCase()}}_contract.dart';
@@ -11,7 +13,9 @@ class {{logger_name.pascalCase()}}Logger implements {{logger_name.pascalCase()}}
   {{logger_name.pascalCase()}}Logger(
     FirebaseCrashlytics? crashlytics,
   ) : _crashlytics = crashlytics ?? FirebaseCrashlytics.instance;
-
+  
+  /// Complete the final steps in order report errors without any problems
+  /// on Android/IOS in https://firebase.google.com/docs/crashlytics/get-started?platform=flutter
   final FirebaseCrashlytics _crashlytics;{{/use_crashlytics}}
   
   @override
@@ -49,8 +53,8 @@ class {{logger_name.pascalCase()}}Logger implements {{logger_name.pascalCase()}}
 
   void exception(Object error, StackTrace stackTrace, {Object? reason}) {
     _log('The following exception occurred: $error', level: LogLevel.critical);
-    /// Collect the Crashlytics logs and send to server immediately, only
-    /// for high serverity logs
+    if(kDebugMode) return; /// Avoid report while in debug mode
+    {{^use_crashlytics}}// TODO!(logger): Send the error and stackTrace to server immediately{{/use_crashlytics}}
     {{#use_crashlytics}}_crashlytics.recordError(error, stackTrace, reason: reason, fatal: true);{{/use_crashlytics}}
   }
 
@@ -61,6 +65,7 @@ class {{logger_name.pascalCase()}}Logger implements {{logger_name.pascalCase()}}
       level: level.value,
       time: currentTime,
     );
+    if(kDebugMode) return; /// Avoid send log to an external service while in debug mode
     {{#use_crashlytics}}_crashlytics.log('${level.name}(level): $message');{{/use_crashlytics}}
   }
 
@@ -70,9 +75,9 @@ class {{logger_name.pascalCase()}}Logger implements {{logger_name.pascalCase()}}
     try {
       throw Exception(message);
     } catch (error, stackTrace) {
-      {{^use_crashlytics}}// TODO(): send the error and stackTrace to Crashlytics or another service{{/use_crashlytics}}
+      if(kDebugMode) return; /// Avoid report while in debug mode
+      {{^use_crashlytics}}// TODO!(logger): Send the error and stackTrace to Crashlytics or another service {{/use_crashlytics}}
       {{#use_crashlytics}}_crashlytics.recordError(error, stackTrace, reason: message, fatal: true);{{/use_crashlytics}}
     }
   }
-
 }

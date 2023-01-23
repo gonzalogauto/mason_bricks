@@ -65,7 +65,7 @@ class {{logger_name.pascalCase()}}Logger implements {{logger_name.pascalCase()}}
       level: level.value,
       time: currentTime,
     );
-    if(kDebugMode) return; /// Avoid send log to an external service while in debug mode
+    if(kDebugMode) return; /// Avoid send log to an external service while in debug 
     {{#use_crashlytics}}_crashlytics.log('${level.name}(level): $message');{{/use_crashlytics}}
   }
 

@@ -1,18 +1,18 @@
 import 'dart:developer' as dev show log;
 
-import 'package:flutter/foundation.dart';
 {{#use_crashlytics}}import 'package:firebase_crashlytics/firebase_crashlytics.dart';{{/use_crashlytics}}
-import 'log_levels/log_level.dart';
+import 'package:flutter/foundation.dart';
 import 'contract/{{logger_name.snakeCase()}}_contract.dart';
+import 'log_levels/log_level.dart';
 
 /// [{{logger_name.pascalCase()}}Logger] is a custom logger that can be used
 /// to report errors to another service like Crashlytics
 class {{logger_name.pascalCase()}}Logger implements {{logger_name.pascalCase()}}LoggerContract{
   {{#use_crashlytics}}/// [{{logger_name.pascalCase()}}Logger] constructor 
   /// (here we initialize Firebase Crashlytics)
-  {{logger_name.pascalCase()}}Logger(
+  {{logger_name.pascalCase()}}Logger({
     FirebaseCrashlytics? crashlytics,
-  ) : _crashlytics = crashlytics ?? FirebaseCrashlytics.instance;
+  }) : _crashlytics = crashlytics ?? FirebaseCrashlytics.instance;
   
   /// Complete the final steps in order report errors without any problems
   /// on Android/IOS in https://firebase.google.com/docs/crashlytics/get-started?platform=flutter
@@ -51,11 +51,12 @@ class {{logger_name.pascalCase()}}Logger implements {{logger_name.pascalCase()}}
     _throwAndReportError(message);
   }
 
-  void exception(Object error, StackTrace stackTrace, {Object? reason}) {
+  void exception(Object error, StackTrace stackTrace, {Object? reason,bool fatal=true,}) {
     _log('The following exception occurred: $error', level: LogLevel.critical);
-    if(kDebugMode) return; /// Avoid report while in debug mode
+    /// Avoid report while in debug mode
+    if(kDebugMode) return;
     {{^use_crashlytics}}// TODO!(logger): Send the error and stackTrace to server immediately{{/use_crashlytics}}
-    {{#use_crashlytics}}_crashlytics.recordError(error, stackTrace, reason: reason, fatal: true);{{/use_crashlytics}}
+    {{#use_crashlytics}}_crashlytics.recordError(error, stackTrace, reason: reason, fatal: fatal,);{{/use_crashlytics}}
   }
 
   void _log(String message, {LogLevel level = LogLevel.info}) {
@@ -65,7 +66,8 @@ class {{logger_name.pascalCase()}}Logger implements {{logger_name.pascalCase()}}
       level: level.value,
       time: currentTime,
     );
-    if(kDebugMode) return; /// Avoid send log to an external service while in debug 
+    /// Avoid send log to an external service while in debug
+    if(kDebugMode) return;  
     {{#use_crashlytics}}_crashlytics.log('${level.name}(level): $message');{{/use_crashlytics}}
   }
 
@@ -75,9 +77,10 @@ class {{logger_name.pascalCase()}}Logger implements {{logger_name.pascalCase()}}
     try {
       throw Exception(message);
     } catch (error, stackTrace) {
-      if(kDebugMode) return; /// Avoid report while in debug mode
+      /// Avoid report while in debug mode
+      if(kDebugMode) return;
       {{^use_crashlytics}}// TODO!(logger): Send the error and stackTrace to Crashlytics or another service {{/use_crashlytics}}
-      {{#use_crashlytics}}_crashlytics.recordError(error, stackTrace, reason: message, fatal: true);{{/use_crashlytics}}
+      {{#use_crashlytics}}_crashlytics.recordError(error, stackTrace, reason: message, fatal: true,);{{/use_crashlytics}}
     }
   }
 }

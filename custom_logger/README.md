@@ -24,44 +24,79 @@ mason make custom_logger --logger_name custom
 ```
 
 ```dart
-import './log_level.dart';
 import 'dart:developer' as dev show log;
+
+import 'package:firebase_crashlytics/firebase_crashlytics.dart';
+import 'package:flutter/foundation.dart';
+import 'package:logger_app/core/logger/contract/custom_contract.dart';
+import 'package:logger_app/core/logger/log_levels/log_level.dart';
+
 /// [CustomLogger] is a custom logger that can be used
 /// to report errors to another service like Crashlytics
-class CustomLogger {
+class CustomLogger implements CustomLoggerContract {
+  /// [CustomLogger] constructor
+  /// (here we initialize Firebase Crashlytics)
+  CustomLogger({
+    FirebaseCrashlytics? crashlytics,
+  }) : _crashlytics = crashlytics ?? FirebaseCrashlytics.instance;
 
+  /// Complete the final steps in order report errors without any problems
+  /// on Android/IOS in https://firebase.google.com/docs/crashlytics/get-started?platform=flutter
+  final FirebaseCrashlytics _crashlytics;
+
+  @override
   void debug(String message) {
     _log(message, level: LogLevel.debug);
   }
 
+  @override
   void info(String message) {
-    _log(message, level: LogLevel.info);
+    _log(message);
   }
 
+  @override
   void warning(String message) {
     _log(message, level: LogLevel.warning);
   }
 
+  @override
   void error(String message) {
     _log(message, level: LogLevel.error);
+
     /// Collect the Crashlytics logs and send to server immediately, only
     /// for high serverity logs
     _throwAndReportError(message);
   }
 
+  @override
   void critical(
     String message,
   ) {
     _log(message, level: LogLevel.critical);
+
     /// Collect the Crashlytics logs and send to server immediately, only
     /// for high serverity logs
     _throwAndReportError(message);
   }
 
-  void exception(Object error, StackTrace stackTrace, {Object? reason}) {
+  @override
+  void exception(
+    Object error,
+    StackTrace stackTrace, {
+    Object? reason,
+    bool fatal = true,
+  }) {
     _log('The following exception occurred: $error', level: LogLevel.critical);
-    /// Collect the Crashlytics logs and send to server immediately, only
-    /// for high serverity logs
+
+    /// Avoid report while in debug mode
+    if (kDebugMode) return;
+
+    _crashlytics.recordError(
+      error,
+      stackTrace,
+      reason: reason,
+      fatal: fatal,
+    );
   }
 
   void _log(String message, {LogLevel level = LogLevel.info}) {
@@ -71,19 +106,29 @@ class CustomLogger {
       level: level.value,
       time: currentTime,
     );
-    /// send error 
+
+    /// Avoid send log to an external service while in debug
+    if (kDebugMode) return;
+    _crashlytics.log('${level.name}(level): $message');
   }
 
+  /// Simulate a "crash" so that we can collect the stack trace and report to
+  /// crashlytics
   void _throwAndReportError(String message) {
-    /// Simulate a "crash" so that we can collect the stack trace and report to
-    /// crashlytics
     try {
       throw Exception(message);
     } catch (error, stackTrace) {
-      /// send error 
+      /// Avoid report while in debug mode
+      if (kDebugMode) return;
+
+      _crashlytics.recordError(
+        error,
+        stackTrace,
+        reason: message,
+        fatal: true,
+      );
     }
   }
-
 }
 ```
 

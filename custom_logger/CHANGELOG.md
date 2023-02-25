@@ -1,3 +1,10 @@
+# 0.1.2
+
+- chore: code refactor
+- update: README.md
+# 0.1.1
+
+- update: add missing imports and dart fix hook
 # 0.1.0
 
 - update: avoid send logs/errors while in debug mode + TODO's and comments that indicates next steps while using Crashlytics integration or not.

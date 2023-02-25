@@ -22,6 +22,7 @@ abstract class {{logger_name.pascalCase()}}LoggerContract {
     Object error,
     StackTrace stackTrace, {
     Object? reason,
+    bool fatal = true,
   });
 
 }

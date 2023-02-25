@@ -7,10 +7,19 @@ void run(HookContext context) async {
   final useCrashlytics = context.vars['use_crashlytics'];
   final isUsingFvm = logger.confirm('Are you using fvm?', defaultValue: true);
   if (useCrashlytics) {
-    await addCrashlyticsDependency(logger, isUsingFvm: isUsingFvm);
+    await addCrashlyticsDependency(
+      logger,
+      isUsingFvm: isUsingFvm,
+    );
   }
-  await applyDartFixes(logger, isUsingFvm: isUsingFvm);
-  await applyFormat(logger, isUsingFvm: isUsingFvm);
+  await applyDartFixes(
+    logger,
+    isUsingFvm: isUsingFvm,
+  );
+  await applyFormat(
+    logger,
+    isUsingFvm: isUsingFvm,
+  );
 }
 
 /// [addCrashlyticsDependency] adds the firebase_crashlytics package
@@ -21,8 +30,16 @@ Future<void> addCrashlyticsDependency(
   final using = isUsingFvm ? 'using fvm' : '';
   final installCrashlytics = logger.progress('Adding crashlytics $using..');
   final addCrashlyticsArgs = ['pub', 'add', 'firebase_crashlytics'];
-  if (isUsingFvm) await Process.run('fvm', ['flutter', ...addCrashlyticsArgs]);
-  if (!isUsingFvm) await Process.run('flutter', addCrashlyticsArgs);
+  if (isUsingFvm)
+    await runCommand(
+      'fvm',
+      ['flutter', ...addCrashlyticsArgs],
+    );
+  if (!isUsingFvm)
+    await Process.run(
+      'flutter',
+      addCrashlyticsArgs,
+    );
   installCrashlytics.complete('Crashlytics added!');
 }
 
@@ -34,8 +51,16 @@ Future<void> applyDartFixes(
   final using = isUsingFvm ? 'using fvm' : '';
   final installCrashlytics = logger.progress('Applying dart fixes $using..');
   final applyDartFixesArgs = ['fix', '--apply'];
-  if (isUsingFvm) await Process.run('fvm', ['dart', ...applyDartFixesArgs]);
-  if (!isUsingFvm) await Process.run('dart', applyDartFixesArgs);
+  if (isUsingFvm)
+    await runCommand(
+      'fvm',
+      ['dart', ...applyDartFixesArgs],
+    );
+  if (!isUsingFvm)
+    await runCommand(
+      'dart',
+      applyDartFixesArgs,
+    );
   installCrashlytics.complete('Dart fixes applyed!');
 }
 
@@ -47,7 +72,29 @@ Future<void> applyFormat(
   final using = isUsingFvm ? 'using fvm' : '';
   final installCrashlytics = logger.progress('Applying format $using..');
   final applyDartFixesArgs = ['format', '.'];
-  if (isUsingFvm) await Process.run('fvm', ['flutter', ...applyDartFixesArgs]);
-  if (!isUsingFvm) await Process.run('flutter', applyDartFixesArgs);
+  if (isUsingFvm)
+    await runCommand(
+      'fvm',
+      ['flutter', ...applyDartFixesArgs],
+    );
+  if (!isUsingFvm)
+    await runCommand(
+      'flutter',
+      applyDartFixesArgs,
+    );
   installCrashlytics.complete('Format applyed!');
+}
+
+Future<void> runCommand(
+  String executable,
+  List<String> arguments,
+) async {
+  final currentDirectory = Directory.current.path;
+  final root = currentDirectory.split('lib')[0];
+  await Process.run(
+    executable,
+    arguments,
+    runInShell: true,
+    workingDirectory: root,
+  );
 }

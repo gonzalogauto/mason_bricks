@@ -1,3 +1,6 @@
+# 0.1.4
+
+- docs: update README.md (outputs and description)
 # 0.1.3
 
 - fix: run hooks commands in the root folder

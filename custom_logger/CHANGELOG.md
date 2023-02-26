@@ -1,3 +1,6 @@
+# 0.1.3
+
+- fix: run hooks commands in the root folder
 # 0.1.2
 
 - chore: code refactor

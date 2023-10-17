@@ -1,3 +1,8 @@
+# 0.1.5
+
+- feat: add recordFlutterFatalError and recordFlutterError methods while using Crashlytics.
+- refactor: use dart format instead of the old flutter format (deprecated)
+
 # 0.1.4
 
 - docs: update README.md (outputs and description)

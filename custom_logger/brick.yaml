@@ -1,7 +1,7 @@
 name: custom_logger
 description: This brick provides a way to create a custom logger.
 repository: https://github.com/gonzalogauto/mason_bricks/tree/main/custom_logger
-version: 0.1.4
+version: 0.1.5
 
 environment:
   mason: ">=0.1.0-dev.26 <0.1.0"

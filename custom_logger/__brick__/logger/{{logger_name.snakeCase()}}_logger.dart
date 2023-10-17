@@ -83,4 +83,18 @@ class {{logger_name.pascalCase()}}Logger implements {{logger_name.pascalCase()}}
       {{#use_crashlytics}}_crashlytics.recordError(error, stackTrace, reason: message, fatal: true,);{{/use_crashlytics}}
     }
   }
+  {{#use_crashlytics}}
+  @override
+  void recordFlutterFatalError(FlutterErrorDetails flutterErrorDetails){
+    /// Avoid report while in debug mode
+    if (kDebugMode) return;
+    _crashlytics.recordFlutterFatalError(flutterErrorDetails);
+  }
+
+  @override
+  void recordFlutterError(FlutterErrorDetails flutterErrorDetails){
+    /// Avoid report while in debug mode
+    if (kDebugMode) return;
+    _crashlytics.recordFlutterError(flutterErrorDetails);
+  }{{/use_crashlytics}}
 }

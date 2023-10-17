@@ -1,3 +1,5 @@
+{{#use_crashlytics}}import 'package:flutter/material.dart';{{/use_crashlytics}}
+
 /// [{{logger_name.pascalCase()}}LoggerContract] class
 abstract class {{logger_name.pascalCase()}}LoggerContract {
   
@@ -24,5 +26,11 @@ abstract class {{logger_name.pascalCase()}}LoggerContract {
     Object? reason,
     bool fatal = true,
   });
+  {{#use_crashlytics}}
+  /// [recordFlutterFatalError] method used to record a Flutter error as fatal
+  void recordFlutterFatalError(FlutterErrorDetails flutterErrorDetails);
 
+  /// [recordFlutterFatalError] method used to record a Flutter error as 
+  /// non-fatal
+  void recordFlutterError(FlutterErrorDetails flutterErrorDetails);{{/use_crashlytics}}
 }

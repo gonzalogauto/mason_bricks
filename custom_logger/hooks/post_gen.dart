@@ -75,11 +75,11 @@ Future<void> applyFormat(
   if (isUsingFvm)
     await runCommand(
       'fvm',
-      ['flutter', ...applyDartFixesArgs],
+      ['dart', ...applyDartFixesArgs],
     );
   if (!isUsingFvm)
     await runCommand(
-      'flutter',
+      'dart',
       applyDartFixesArgs,
     );
   installCrashlytics.complete('Format applyed!');

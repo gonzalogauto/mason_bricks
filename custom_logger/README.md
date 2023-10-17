@@ -136,5 +136,19 @@ class CustomLogger implements CustomLoggerContract {
       );
     }
   }
+  
+  @override
+  void recordFlutterFatalError(FlutterErrorDetails flutterErrorDetails){
+    /// Avoid report while in debug mode
+    if (kDebugMode) return;
+    _crashlytics.recordFlutterFatalError(flutterErrorDetails);
+  }
+
+  @override
+  void recordFlutterError(FlutterErrorDetails flutterErrorDetails){
+    /// Avoid report while in debug mode
+    if (kDebugMode) return;
+    _crashlytics.recordFlutterError(flutterErrorDetails);
+  }
 }
 ```

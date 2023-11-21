@@ -1,3 +1,8 @@
+# 0.1.6
+
+- chore: add link to crashlytics docs while using that service.
+- chore: update readme logger example.
+
 # 0.1.5
 
 - feat: add recordFlutterFatalError and recordFlutterError methods while using Crashlytics.

@@ -14,10 +14,10 @@ mason make custom_logger --logger_name custom
 
 ## Variables ✨
 
-| Variable         | Description                      | Default | Type      |
-| ---------------- | -------------------------------- | ------- | --------- |
-| `logger_name`    | The name of the logger           | custom  | `string`  |
-| `use_crashlytics`| Whether to use Crashlytics or not | true  | `boolean`  |
+| Variable         | Description                       | Default | Type      |
+| ---------------- | --------------------------------- | ------- | --------- |
+| `logger_name`    | The name of the logger            | custom  | `string`  |
+| `use_crashlytics`| Whether to use Crashlytics or not | true    | `boolean` |
 
 ## Outputs 📦
 
@@ -35,8 +35,8 @@ import 'dart:developer' as dev show log;
 
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter/foundation.dart';
-import 'package:logger_app/core/logger/contract/custom_contract.dart';
-import 'package:logger_app/core/logger/log_levels/log_level.dart';
+import 'contract/custom_contract.dart';
+import 'log_levels/log_level.dart';
 
 /// [CustomLogger] is a custom logger that can be used
 /// to report errors to another service like Crashlytics
@@ -47,8 +47,9 @@ class CustomLogger implements CustomLoggerContract {
     FirebaseCrashlytics? crashlytics,
   }) : _crashlytics = crashlytics ?? FirebaseCrashlytics.instance;
 
-  /// Complete the final steps in order report errors without any problems
-  /// on Android/IOS in https://firebase.google.com/docs/crashlytics/get-started?platform=flutter
+  /// Please complete native configuration before start using Crashlytics.
+  /// For more info visit:
+  /// https://firebase.google.com/docs/crashlytics/get-started?platform=flutter
   final FirebaseCrashlytics _crashlytics;
 
   @override
@@ -58,7 +59,7 @@ class CustomLogger implements CustomLoggerContract {
 
   @override
   void info(String message) {
-    _log(message);
+    _log(message, level: LogLevel.info);
   }
 
   @override
@@ -136,16 +137,16 @@ class CustomLogger implements CustomLoggerContract {
       );
     }
   }
-  
+
   @override
-  void recordFlutterFatalError(FlutterErrorDetails flutterErrorDetails){
+  void recordFlutterFatalError(FlutterErrorDetails flutterErrorDetails) {
     /// Avoid report while in debug mode
     if (kDebugMode) return;
     _crashlytics.recordFlutterFatalError(flutterErrorDetails);
   }
 
   @override
-  void recordFlutterError(FlutterErrorDetails flutterErrorDetails){
+  void recordFlutterError(FlutterErrorDetails flutterErrorDetails) {
     /// Avoid report while in debug mode
     if (kDebugMode) return;
     _crashlytics.recordFlutterError(flutterErrorDetails);

@@ -14,8 +14,9 @@ class {{logger_name.pascalCase()}}Logger implements {{logger_name.pascalCase()}}
     FirebaseCrashlytics? crashlytics,
   }) : _crashlytics = crashlytics ?? FirebaseCrashlytics.instance;
   
-  /// Complete the final steps in order report errors without any problems
-  /// on Android/IOS in https://firebase.google.com/docs/crashlytics/get-started?platform=flutter
+  /// Please complete native configuration before start using Crashlytics.
+  /// For more info visit: 
+  /// https://firebase.google.com/docs/crashlytics/get-started?platform=flutter
   final FirebaseCrashlytics _crashlytics;{{/use_crashlytics}}
   
   @override

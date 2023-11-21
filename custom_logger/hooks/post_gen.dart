@@ -20,6 +20,17 @@ void run(HookContext context) async {
     logger,
     isUsingFvm: isUsingFvm,
   );
+  if (useCrashlytics) {
+    logger.info(
+      lightCyan.wrap('''
++---------------------------------------------------------------------------+
+| Please complete native configuration before start using Crashlytics.      |
+|                                                                           |
+| For more info visit:                                                      |
+| https://firebase.google.com/docs/crashlytics/get-started?platform=flutter |
++---------------------------------------------------------------------------+'''),
+    );
+  }
 }
 
 /// [addCrashlyticsDependency] adds the firebase_crashlytics package

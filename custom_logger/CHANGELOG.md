@@ -1,3 +1,7 @@
+# 0.1.7
+
+- fix: remove typo and improve messages.
+
 # 0.1.6
 
 - chore: add link to crashlytics docs while using that service.

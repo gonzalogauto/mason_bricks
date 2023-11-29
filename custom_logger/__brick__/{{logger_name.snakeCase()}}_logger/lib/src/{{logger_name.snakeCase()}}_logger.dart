@@ -2,7 +2,7 @@ import 'dart:developer' as dev show log;
 
 {{#use_crashlytics}}import 'package:firebase_crashlytics/firebase_crashlytics.dart';{{/use_crashlytics}}
 import 'package:flutter/foundation.dart';
-import 'contract/{{logger_name.snakeCase()}}_contract.dart';
+import 'contract/{{logger_name.snakeCase()}}_logger_contract.dart';
 import 'log_levels/log_level.dart';
 
 /// [{{logger_name.pascalCase()}}Logger] is a custom logger that can be used

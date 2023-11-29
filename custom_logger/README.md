@@ -23,11 +23,24 @@ mason make custom_logger --logger_name custom
 
 ```
 --logger_name custom 
-
-── logger
-  ├── contract/custom_logger_contract.dart
-  └── log_levels/log_level.dart
-  └── custom_logger.dart
+├── custom_logger
+│   ├── lib
+│   │   ├── src
+│   │   │   ├── contract
+│   │   │   │   ├── custom_logger_contract.dart
+|   |   |   ├── log_levels
+│   │   │   │   ├── log_levels.dart
+│   │   │   ├── custom_logger.dart
+│   │   └── custom_logger.dart
+│   ├── test
+│   │   └── src
+│   │       └── custom_logger_test.dart
+│   ├── .gitignore
+│   ├── analysis_options.yaml
+│   ├── pubspec.yaml
+│   └── README.md
+└── ...
+```
 ```
 
 ```dart

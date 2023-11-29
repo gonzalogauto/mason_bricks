@@ -1,3 +1,10 @@
+# 0.1.8
+
+- feat: we now create the custom logger as a package so that users can import and use it more easily.
+- chore: add README.md to the new package structure.
+- chore: update output example in README.md.
+- refactor: improve post gen hooks commands.
+
 # 0.1.7
 
 - fix: remove typo and improve messages.
